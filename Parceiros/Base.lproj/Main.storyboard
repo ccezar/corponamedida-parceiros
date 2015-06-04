@@ -1,25 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="HLH-Fd-zLZ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Navigation Controller-->
+        <scene sceneID="FjO-tH-qZQ">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="HLH-Fd-zLZ" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="N5m-wx-l31">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="cY5-Of-rQE" kind="relationship" relationship="rootViewController" id="SrM-OR-V09"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QWj-Jg-vtu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="227" y="214"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="iHs-L6-kqL">
+            <objects>
+                <viewController id="cY5-Of-rQE" customClass="ViewController" customModule="Parceiros" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="Nld-BD-3af"/>
+                        <viewControllerLayoutGuide type="bottom" id="HIQ-IL-Lvb"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="2Ub-70-5SK">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="WHw-Gx-NBw">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="WHw-Gx-NBw" secondAttribute="trailing" id="73C-ga-fA5"/>
+                            <constraint firstItem="WHw-Gx-NBw" firstAttribute="leading" secondItem="2Ub-70-5SK" secondAttribute="leading" id="C5d-HJ-KOc"/>
+                            <constraint firstItem="WHw-Gx-NBw" firstAttribute="bottom" secondItem="HIQ-IL-Lvb" secondAttribute="top" id="GiX-es-B5d"/>
+                            <constraint firstItem="WHw-Gx-NBw" firstAttribute="top" secondItem="2Ub-70-5SK" secondAttribute="top" id="SJp-7Y-gBt"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="RcY-lj-gwY"/>
+                    <connections>
+                        <outlet property="mapView" destination="WHw-Gx-NBw" id="blH-sW-Bmv"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nV8-4P-r46" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="946" y="214"/>
         </scene>
     </scenes>
 </document>
