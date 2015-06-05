@@ -14,6 +14,7 @@ extension ViewController: MKMapViewDelegate {
         if let annotation = annotation as? Parceiro {
             let identifier = "pin"
             var view: MKPinAnnotationView
+            
             if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier)
                 as? MKPinAnnotationView {
                     dequeuedView.annotation = annotation
@@ -24,6 +25,9 @@ extension ViewController: MKMapViewDelegate {
                 view.calloutOffset = CGPoint(x: -5, y: 5)
                 view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
             }
+            
+            view.image = UIImage(named: annotation.tipoUrl)
+            
             return view
         }
         return nil

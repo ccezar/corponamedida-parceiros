@@ -10,9 +10,6 @@ import UIKit
 
 class SobreViewController: UIViewController {
     
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-        super.viewWillAppear(animated)
-    }
+    
     
 }

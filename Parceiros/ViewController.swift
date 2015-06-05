@@ -9,22 +9,51 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
 
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     let pontoInicial = CLLocation(latitude: -12.29536, longitude: -53.06786)
-    let raio: CLLocationDistance = 4000000
+    
     var parceiros = [Parceiro]()
+    var locationManager = CLLocationManager()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
         
-        centralizarMapa(pontoInicial)
         carregarParceiros()
+    }
+    
+    @IBAction func tapScreen(sender: UITapGestureRecognizer) {
+        searchBar.hidden = !searchBar.hidden
+    }
+    
+    func checkLocationAuthorizationStatus() {
+        if CLLocationManager.authorizationStatus() == .AuthorizedWhenInUse {
+            mapView.showsUserLocation = true
+            setarLocalizacaoUsuario()
+        } else {
+            centralizarMapa(pontoInicial, raio: 4000000)
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        checkLocationAuthorizationStatus()
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .None)
+    }
+    
+    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if (status == .Denied ) {
+            // The user denied authorization
+        } else if (status == .AuthorizedWhenInUse) {
+            setarLocalizacaoUsuario()
+        }
     }
     
     func carregarParceiros()
@@ -43,19 +72,21 @@ class ViewController: UIViewController {
         ParceiroClient().listar(success, failure: fail)
     }
     
-    override func viewWillAppear(animated: Bool){
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        super.viewWillAppear(animated)
-    }
-    
-    func centralizarMapa(ponto: CLLocation) {
+    func centralizarMapa(ponto: CLLocation, raio: CLLocationDistance) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(ponto.coordinate,
                                                                   raio * 2.0,
                                                                   raio * 2.0)
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    
+    func setarLocalizacaoUsuario() {
+        let locationManager = CLLocationManager()
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.startUpdatingLocation();
+        
+        centralizarMapa(locationManager.location, raio: 9000)
+    }
 
 }
 

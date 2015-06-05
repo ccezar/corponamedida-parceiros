@@ -116,8 +116,8 @@
 		FC0C004F1B208659000544AA /* Parceiros */ = {
 			isa = PBXGroup;
 			children = (
-				FC0C00831B20A9ED000544AA /* Helpers */,
 				FC0C00801B20A841000544AA /* Parceiros-Bridging-Header.h */,
+				FC0C00831B20A9ED000544AA /* Helpers */,
 				FC0C007D1B20A5B2000544AA /* Enums */,
 				FC0C007A1B20A3BC000544AA /* Clients */,
 				FC0C00771B209D44000544AA /* Extensions */,
