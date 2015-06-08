@@ -47,10 +47,10 @@ class Parceiro: NSObject, MKAnnotation {
     }
     
     var title: String {
-        return tipo
+        return nome
     }
     
     var subtitle: String {
-        return nome
-    }    
+        return ""
+    }
 }

@@ -9,11 +9,15 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDelegate {
 
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var parceiroView: UIView!
+    @IBOutlet weak var fotoParceiro: UIImageView!
+    @IBOutlet weak var nomeParceiroLabel: UILabel!
+    @IBOutlet weak var tipoParceiroLabel: UILabel!
     
     let pontoInicial = CLLocation(latitude: -12.29536, longitude: -53.06786)
     
@@ -24,6 +28,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
+        searchBar.delegate = self
         
         carregarParceiros()
     }
@@ -33,12 +38,47 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let ponto = sender.locationInView(mapView)
         let view : UIView = mapView.hitTest(ponto, withEvent: nil)!
         
-        let annotation : AnyObject
-        if view.isKindOfClass(MKAnnotationView) {
-            NSLog("clicou na annotation")
-        } else if toString(view.dynamicType) == "MKNewAnnotationContainerView" {
-            searchBar.hidden = !searchBar.hidden
+        if toString(view.dynamicType) == "MKModernUserLocationView" {
+            return
         }
+        
+        if toString(view.dynamicType) == "MKNewAnnotationContainerView" {
+            searchBar.hidden = !searchBar.hidden
+            ocultarViewParceiro(parceiroView)
+        } else {
+            searchBar.hidden = true
+            
+            if view.isKindOfClass(MKAnnotationView) {
+                mostrarViewParceiro(parceiroView)
+            } else {
+                ocultarViewParceiro(parceiroView)
+            }
+        }
+    }
+    
+    @IBAction func abrirBusca(sender: AnyObject) {
+        if !searchBar.hidden {
+            self.view.endEditing(true)
+        }
+        
+        searchBar.hidden = !searchBar.hidden
+    }
+    
+    @IBAction func abrirPaginaParceiro(sender: UIButton) {
+        
+    }
+    
+    @IBAction func fecharViewParceiro(sender: UIButton) {
+        ocultarViewParceiro(parceiroView)
+    }
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.hidden = true
+        self.view.endEditing(true)
     }
     
     func checkLocationAuthorizationStatus() {
@@ -49,6 +89,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             centralizarMapa(pontoInicial, raio: 4000000)
             locationManager.requestWhenInUseAuthorization()
         }
+    }
+    
+    func mostrarViewParceiro(view: UIView) {
+        UIView.transitionWithView(view,
+            duration: 0.7,
+            options: .TransitionNone,
+            animations: { () -> Void in
+                view.frame.origin.y = self.view.frame.height - view.frame.height
+            },
+            completion: nil)
+    }
+    
+    func ocultarViewParceiro(view: UIView) {
+        UIView.transitionWithView(view,
+            duration: 0.7,
+            options: .TransitionNone,
+            animations: { () -> Void in
+                view.frame.origin.y = self.view.frame.height + view.frame.height
+            },
+            completion: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
