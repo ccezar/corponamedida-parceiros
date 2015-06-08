@@ -29,7 +29,16 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func tapScreen(sender: UITapGestureRecognizer) {
-        searchBar.hidden = !searchBar.hidden
+        
+        let ponto = sender.locationInView(mapView)
+        let view : UIView = mapView.hitTest(ponto, withEvent: nil)!
+        
+        let annotation : AnyObject
+        if view.isKindOfClass(MKAnnotationView) {
+            NSLog("clicou na annotation")
+        } else if toString(view.dynamicType) == "MKNewAnnotationContainerView" {
+            searchBar.hidden = !searchBar.hidden
+        }
     }
     
     func checkLocationAuthorizationStatus() {
