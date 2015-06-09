@@ -39,19 +39,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
         let view : UIView = mapView.hitTest(ponto, withEvent: nil)!
         
         if toString(view.dynamicType) == "MKModernUserLocationView" {
+            // clicou na localização do usuário
             return
         }
         
         if toString(view.dynamicType) == "MKNewAnnotationContainerView" {
-            searchBar.hidden = !searchBar.hidden
-            ocultarViewParceiro(parceiroView)
+            mostrarViewParceiro()
+            // clicou em no mapa
         } else {
-            searchBar.hidden = true
-            
-            if view.isKindOfClass(MKAnnotationView) {
-                mostrarViewParceiro(parceiroView)
-            } else {
-                ocultarViewParceiro(parceiroView)
+            if view is MKAnnotationView {
+                let pin = view as! MKAnnotationView
+                let parceiro = pin.annotation as! Parceiro
+                
+                let url = NSURL(string: parceiro.imagem)
+                let data = NSData(contentsOfURL: url!)
+                
+                fotoParceiro.image = UIImage(data: data!)
+                nomeParceiroLabel.text = parceiro.nome
+                tipoParceiroLabel.text = parceiro.tipo
+                
+                mostrarViewParceiro()
             }
         }
     }
@@ -69,7 +76,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
     }
     
     @IBAction func fecharViewParceiro(sender: UIButton) {
-        ocultarViewParceiro(parceiroView)
+        ocultarViewParceiro()
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -91,9 +98,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
         }
     }
     
-    func mostrarViewParceiro(view: UIView) {
+    func mostrarViewParceiro() {
+        let view = self.parceiroView
+        
         UIView.transitionWithView(view,
-            duration: 0.7,
+            duration: 0.5,
             options: .TransitionNone,
             animations: { () -> Void in
                 view.frame.origin.y = self.view.frame.height - view.frame.height
@@ -101,9 +110,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
             completion: nil)
     }
     
-    func ocultarViewParceiro(view: UIView) {
+    func ocultarViewParceiro() {
+        let view = self.parceiroView
+        
         UIView.transitionWithView(view,
-            duration: 0.7,
+            duration: 0.5,
             options: .TransitionNone,
             animations: { () -> Void in
                 view.frame.origin.y = self.view.frame.height + view.frame.height

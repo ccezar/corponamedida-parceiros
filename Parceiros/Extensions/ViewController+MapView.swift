@@ -21,9 +21,11 @@ extension ViewController: MKMapViewDelegate {
                     view = dequeuedView
             } else {
                 view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                view.canShowCallout = true
-                view.calloutOffset = CGPoint(x: -5, y: 5)
-                view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
+                
+                // Não vou mostrar o balão em cima do pin
+                //view.canShowCallout = true
+                //view.calloutOffset = CGPoint(x: -5, y: 5)
+                //view.rightCalloutAccessoryView = UIButton.buttonWithType(.DetailDisclosure) as! UIView
             }
             
             view.image = UIImage(named: annotation.tipoUrl)
@@ -34,8 +36,8 @@ extension ViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
-        let parceiro = view.annotation as! Parceiro
-        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+//        let parceiro = view.annotation as! Parceiro
+//        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
     
         // Abre o mapa nativo do device mostrando a rota até o ponto
         //parceiro().openInMapsWithLaunchOptions(launchOptions)
@@ -53,7 +55,7 @@ extension ViewController: MKMapViewDelegate {
                     self.mostrarViewParceiro(self.parceiroView)
                 }
         })
-        */
+
         let url = NSURL(string: parceiro.imagem)
         let data = NSData(contentsOfURL: url!)
         
@@ -61,8 +63,8 @@ extension ViewController: MKMapViewDelegate {
         nomeParceiroLabel.text = parceiro.nome
         tipoParceiroLabel.text = parceiro.tipo
         
-        mostrarViewParceiro(self.parceiroView)
-
+        mostrarViewParceiro()
+        */
         
     }
     
