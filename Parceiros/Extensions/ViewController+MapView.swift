@@ -68,4 +68,19 @@ extension ViewController: MKMapViewDelegate {
         
     }
     
+    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+        //To calculate the search bounds...
+        //First we need to calculate the corners of the map so we get the points
+        let nePoint = CGPointMake(self.mapView.bounds.origin.x + mapView.bounds.size.width, mapView.bounds.origin.y)
+        let swPoint = CGPointMake((self.mapView.bounds.origin.x), (mapView.bounds.origin.y + mapView.bounds.size.height))
+        
+        //Then transform those point into lat,lng values
+        let neCoord = mapView.convertPoint(nePoint, toCoordinateFromView: mapView)
+        let swCoord = mapView.convertPoint(swPoint, toCoordinateFromView: mapView)
+        
+        
+        
+        NSLog("ne: {lat: \(neCoord.latitude), lng: \(neCoord.longitude) } x sw: {lat: \(swCoord.latitude), lng: \(swCoord.longitude) }")
+    }
+    
 }

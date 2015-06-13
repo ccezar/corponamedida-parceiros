@@ -18,6 +18,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
     @IBOutlet weak var fotoParceiro: UIImageView!
     @IBOutlet weak var nomeParceiroLabel: UILabel!
     @IBOutlet weak var tipoParceiroLabel: UILabel!
+    @IBOutlet weak var bottonConstraintViewParceiro: NSLayoutConstraint!
     
     let pontoInicial = CLLocation(latitude: -12.29536, longitude: -53.06786)
     
@@ -44,8 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
         }
         
         if toString(view.dynamicType) == "MKNewAnnotationContainerView" {
-            mostrarViewParceiro()
-            // clicou em no mapa
+            NSLog("clicou no mapa")
         } else {
             if view is MKAnnotationView {
                 let pin = view as! MKAnnotationView
@@ -72,7 +72,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
     }
     
     @IBAction func abrirPaginaParceiro(sender: UIButton) {
-        
+        NSLog("Chamar webview")
     }
     
     @IBAction func fecharViewParceiro(sender: UIButton) {
@@ -100,26 +100,22 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
     
     func mostrarViewParceiro() {
         let view = self.parceiroView
+        bottonConstraintViewParceiro.constant = 0
+        view.setNeedsUpdateConstraints()
         
-        UIView.transitionWithView(view,
-            duration: 0.5,
-            options: .TransitionNone,
-            animations: { () -> Void in
-                view.frame.origin.y = self.view.frame.height - view.frame.height
-            },
-            completion: nil)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            view.layoutIfNeeded()
+        })
     }
     
     func ocultarViewParceiro() {
         let view = self.parceiroView
+        bottonConstraintViewParceiro.constant = view.frame.height * -1
+        view.setNeedsUpdateConstraints()
         
-        UIView.transitionWithView(view,
-            duration: 0.5,
-            options: .TransitionNone,
-            animations: { () -> Void in
-                view.frame.origin.y = self.view.frame.height + view.frame.height
-            },
-            completion: nil)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            view.layoutIfNeeded()
+        })
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -165,7 +161,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, UISearchBarDe
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.startUpdatingLocation();
         
-        centralizarMapa(locationManager.location, raio: 9000)
+        if (locationManager.location != nil) {
+            centralizarMapa(locationManager.location, raio: 9000)
+        }
     }
 
 }

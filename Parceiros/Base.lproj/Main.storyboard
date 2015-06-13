@@ -182,6 +182,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottonConstraintViewParceiro" destination="BhE-04-k6I" id="DSD-Ab-p90"/>
                         <outlet property="fotoParceiro" destination="Daw-ju-Ecz" id="Myw-EJ-GvP"/>
                         <outlet property="mapView" destination="WHw-Gx-NBw" id="blH-sW-Bmv"/>
                         <outlet property="nomeParceiroLabel" destination="oag-UH-6Fe" id="uSN-Ag-H0L"/>
